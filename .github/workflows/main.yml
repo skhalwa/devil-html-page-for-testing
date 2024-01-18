@@ -17,9 +17,9 @@ jobs:
       - name: Deploy
         uses: cloudflare/pages-action@1
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: "eOPm8_xG_noLVKwLpkm5qrLJuET9vvoPbITPhaQu"
           accountId: "06d3d6420591cd7e469ba8fb4ab764fa"
           projectName: "shubhamkosta-lucifer-devil"
           directory: "/" # Update this to the correct directory
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          gitHubToken: "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"
           wranglerVersion: 2
