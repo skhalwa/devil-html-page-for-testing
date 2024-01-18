@@ -1,4 +1,8 @@
-on: [push]
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -9,14 +13,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      # Run your project's build step
-      # - name: Build
-      #   run: npm install && npm run build
-      - name: Publish
+
+      - name: Deploy
         uses: cloudflare/pages-action@1
         with:
-          apiToken: "eOPm8_xG_noLVKwLpkm5qrLJuET9vvoPbITPhaQu"
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: "06d3d6420591cd7e469ba8fb4ab764fa"
-          projectName: "shubhamkosta-lucifer-devil" # e.g. 'my-project'
-          directory: "/" # e.g. 'dist'
-          gitHubToken: "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"
+          projectName: "shubhamkosta-lucifer-devil"
+          directory: "/" # Update this to the correct directory
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: 2
