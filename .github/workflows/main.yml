@@ -18,5 +18,5 @@ jobs:
           apiToken: "eOPm8_xG_noLVKwLpkm5qrLJuET9vvoPbITPhaQu"
           accountId: "06d3d6420591cd7e469ba8fb4ab764fa"
           projectName: "shubhamkosta-lucifer-devil" # e.g. 'my-project'
-          directory: / # e.g. 'dist'
+          directory: "/" # e.g. 'dist'
           gitHubToken: "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"
