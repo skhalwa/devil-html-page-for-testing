@@ -1,60 +1,43 @@
-name: Cloudflare Pages Deploy
+name: Deploy to Cloudflare Pages
+run: |
+    python - <<EOF
+    import requests
 
-on:
-  push:
-    branches:
-      - main
+    # Replace with your Cloudflare API token and account ID
+    api_token = "eOPm8_xG_noLVKwLpkm5qrLJuET9vvoPbITPhaQu"
+    account_id = "06d3d6420591cd7e469ba8fb4ab764fa"
+    
+    # Cloudflare Pages endpoint
+    pages_endpoint = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/pages/projects"
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+    # Application data
+    application_data = {
+      "name": "lucifer",
+      "production_branch": "main",
+      "github": {
+        "enabled": True,
+        "auto_deploy": True,
+        "repo": "skhalwa/devil-html-page-for-testing",  # Replace with your GitHub repository
+        "branch": "main",
+      }
+    }
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    # Set up headers
+    headers = {
+      "Authorization": f"Bearer {api_token}",
+      "Content-Type": "application/json",
+    }
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
+    # Make a POST request to create the Cloudflare Page application
+    response = requests.post(pages_endpoint, json=application_data, headers=headers)
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests
-
-    - name: Deploy to Cloudflare Pages
-      run: |
-        python - <<EOF
-        import requests
-
-        # Replace with your Cloudflare API token and account ID
-        api_token = "eOPm8_xG_noLVKwLpkm5qrLJuET9vvoPbITPhaQu"
-        account_id = "06d3d6420591cd7e469ba8fb4ab764fa"
-
-        # Cloudflare Pages endpoint
-        pages_endpoint = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/pages/projects"
-
-        # Application data
-        application_data = {
-          "name": "lucifer",
-          "production_branch": "main",
-          "github": {
-            "enabled": True,
-            "auto_deploy": True,
-            "repo": "skhalwa/devil-html-page-for-testing",  # Replace with your GitHub repository
-            "branch": "main",
-
-        # Make a POST request to create the Cloudflare Page application
-        response = requests.post(pages_endpoint, json=application_data, headers=headers)
-
-        # Check the response
-        if response.status_code == 200:
-          print("Cloudflare Page application created successfully.")
-        else:
-          print(f"Failed to create Cloudflare Page application. Status code: {response.status_code}")
-          print(response.json())
-        EOF
-          env:
-            API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-            ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    # Check the response
+    if response.status_code == 200:
+      print("Cloudflare Page application created successfully.")
+    else:
+      print(f"Failed to create Cloudflare Page application. Status code: {response.status_code}")
+      print(response.json())
+    EOF
+  env:
+    API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
